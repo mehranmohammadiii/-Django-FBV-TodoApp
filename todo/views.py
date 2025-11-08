@@ -4,8 +4,7 @@ from .models import Task
 from .forms import TaskForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-
-
+# -------------------------------------------------------
 @login_required
 def index(request):
     tasks = Task.objects.filter(user=request.user)
@@ -22,8 +21,7 @@ def index(request):
 
     context = {"tasks": tasks, "form": form}
     return render(request, "tasks/list_task.html", context)
-
-
+# -------------------------------------------------------
 @login_required
 def updateTask(request, pk):
     task = Task.objects.get(id=pk, user=request.user)
@@ -39,18 +37,17 @@ def updateTask(request, pk):
     context = {"form": form}
 
     return render(request, "tasks/update_task.html", context)
-
-
+# -------------------------------------------------------
 @login_required
 def completeTask(request, pk):
     item = get_object_or_404(Task, id=pk, user=request.user)
     item.complete = True
     item.save()
     return redirect("/")
-
-
+# -------------------------------------------------------
 @login_required
 def deleteTask(request, pk):
     item = get_object_or_404(Task, id=pk, user=request.user)
     item.delete()
     return redirect("/")
+# -------------------------------------------------------
